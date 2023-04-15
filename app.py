@@ -1,32 +1,30 @@
-from flask import Flask, render_template, request
-from surveys import satisfaction_survey
+from flask import Flask, render_template, request, redirect, jsonify
+from surveys import satisfaction_survey as survey
 
 from flask_debugtoolbar import DebugToolbarExtension
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = "very_secret"
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
+
 
 responses = []
 
 @app.route('/')
 def welcome():
-    title = satisfaction_survey.title
-    instructions = satisfaction_survey.instructions
-    return render_template('survey_home.html', survey_title = title, instructions = instructions)
+    return render_template('survey_home.html', survey = survey)
 
-@app.route('/questions/<num>')
+@app.route('/questions/<int:num>')
 def show_form(num):
-    num = int(num)
-    question = satisfaction_survey.questions[num].question
-    choices = satisfaction_survey.questions[num].choices
+    question = survey.questions[num]
     num += 1
-    return render_template('questionnaire.html', question = question, choice0 = choices[0], choice1 = choices[1])
+    return render_template('questionnaire.html', num = num, question = question)
 
-@app.route('/questions/submit', methods=["POST"])
+@app.route('/submit', methods=["POST"])
 def submit_data():
-    look_at_args = request.args["option"]
-    responses.append(look_at_args)
-    return 
+    args = request.form["option"]
+    responses.append(args)
+    return redirect(f'/questions/{len(responses)}')
     

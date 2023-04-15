@@ -11,8 +11,8 @@ class Question:
         self.choices = choices
         self.allow_text = allow_text
 
-    def __repr__(self):
-        return f"Question contents: {self.question}, Choices: {self.choices}, Is text allowed? {self.allow_text}"
+    # def __repr__(self):
+    #     return f"Question contents: {self.question}, Choices: {self.choices}, Is text allowed? {self.allow_text}"
 
 
 class Survey:
@@ -25,8 +25,8 @@ class Survey:
         self.instructions = instructions
         self.questions = questions
 
-    def __repr__(self):
-        return f"Title: '{self.title}', instructions: '{self.instructions}', how many questions: {len(self.questions)}"
+    # def __repr__(self):
+    #     return f"Title: '{self.title}', instructions: '{self.instructions}', how many questions: {len(self.questions)}"
 
 
 satisfaction_survey = Survey(
