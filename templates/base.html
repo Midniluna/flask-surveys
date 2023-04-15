@@ -8,7 +8,14 @@
 		<link rel="stylesheet" href="/static/style.css" />
 	</head>
 	<body>
-		{% block content %}{% endblock %}
+		{% with messages = get_flashed_messages(with_categories=true)%} {% if
+		messages %}
+		<section class="messages">
+			{% for category,msg in messages %}
+			<p class="{{category}}">{{msg}}</p>
+			{% endfor %}
+		</section>
+		{% endif %} {% endwith %} {% block content %} {% endblock %}
 	</body>
 	<script src="/static/app.js"></script>
 </html>
